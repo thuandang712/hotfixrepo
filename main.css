@@ -1,0 +1,12 @@
+#logo {
+    font-size: 3rem;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    border-bottom: 1px solid aqua;
+    padding-bottom: .5rem;
+}
+
+#highlight {
+    color: aqua;
+    font-style: italic;
+}
