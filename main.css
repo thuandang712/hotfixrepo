@@ -10,3 +10,76 @@
     color: aqua;
     font-style: italic;
 }
+
+#button {
+    background: aqua;
+    margin: 0 auto;
+    display: block;
+    cursor: pointer;
+}
+
+#textInput {
+    margin: 0 auto;
+    display: block;
+}
+
+#textInput:hover {
+    width: 200px;
+    height: 40px;
+    background: aqua;
+}
+
+#container {
+    width: 575px;
+    border: none;
+}
+
+.users {
+    font-family: Jazz LET, fantasy;
+    padding: 15px;
+    border-bottom: 1px solid aqua;
+}
+
+.users:hover {
+    width: 500px;
+    height: 80px;
+    margin: auto;
+    text-align: center;
+    background: aqua;
+    vertical-align: middle;
+}
+
+.posts {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 1px solid rgb(46, 192, 102);
+    margin-top: 2px;
+    margin-left: 40px;
+}
+
+.posts:hover {
+    width: 500px;
+    height: 80px;
+    margin: 0 auto;
+    text-align: center;
+    background: aqua;
+    cursor: pointer;
+}
+
+#getPosts {
+    background:rgb(48, 247, 230);
+    cursor: pointer;
+}
+
+#button:hover {
+    width: 80px;
+    height: 40px;
+}
+
+#getPosts:hover {
+    width: 80px;
+    height: 40px;
+}
+
+body {
+    background: rgba(240, 95, 95, 0.548);
+}
