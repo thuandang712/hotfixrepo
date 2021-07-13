@@ -1,84 +1,86 @@
-// I want good control flow and function encapsulation for this project. 
-// I don't want just lines and lines of code written in the global scope or in one huge function.
+// I want good control flow and function encapsulation for this project. I don't want just lines and lines of code written in the global scope or in one huge function.
 
 // When page loads, make a get request that gets all users and creates divs for each user. 
 // Each user div should have the users name, username, and city they are located in.
+init()
 
-createContainer()
-getAllUsers()
-
-function getAllUsers() {
-    $.get('https://jsonplaceholder.typicode.com/users', function(data){
-        // Console log the data to see what you get back and how to use it.
-        // console.log(data) // arr of objs
-        for (let i = 0; i < data.length; i++) {
-            var current = data[i];
-            // Create divs, and append them to the screen. 
-            var div = $('<div></div>')
-            div.attr('class', 'users')
-            div.text(`Name: ${current.name}. Username: ${current.username}. City: ${current.address.city}`)
-            $('#container').append(div)
-        }  
-    })
+function init() {
+    createDivUserContainer()
+    getAllUsers()
+    createGetPostsButton()
+    addEventListenerToGetPosts()    
 }
 
-function createContainer() {
+function createDivUserContainer() {
     var container = $('<div></div>')
     container.attr('id', 'container')
     $('body').append(container)
 }
 
-
-
-// -------------------------- 2 --------------------
-
-getPostsButton()
-addEvenListenerToGetPostsButton()
-
-
-// Create a button that says 'get posts' and has a click event to send a request to get all posts.
-function getPostsButton() {
-    var button = $('<button></button>')
-    button.attr('id', 'getPosts')
-    button.text('Get posts')
-    $('body').append(button)
-}
-
-// Write a function to get all posts, find what route you would need in your get request
-function addEvenListenerToGetPostsButton() {
-    $('#getPosts').click(getAllPosts)
-}
-
-function getAllPosts() {
-    $.get('https://jsonplaceholder.typicode.com/posts', function(data){
-        for (let i = 0; i < data.length; i++) {
-            var post = data[i];
-            var divPost = $('<div></div>')
-            divPost.attr('id', post.userId)
-            divPost.attr('class', 'posts')
-            divPost.text(`${post.title}: ${post.body}`)
-            $('#container').append(divPost)
-            divPost.click(function(e) {
-                $.get(`https://jsonplaceholder.typicode.com/posts/${e.target.id}/comments`, function(data){
-                    console.clear()
-                    for (let j = 0; j < data.length; j++) {
-                        console.log(data[j].body)
-                    }
-                })
-            })
+function getAllUsers() {
+    $.get('https://jsonplaceholder.typicode.com/users', function(data){
+        // console.log(data) // data is an array of objs
+        for (var i = 0; i < data.length; i++) {
+            var current = data[i]
+            var div = $('<div></div>')
+            div.attr('class', 'users')
+            div.text(`Name: ${current.name}. Username: ${current.username}. City: ${current.address.city}`)
+            $('#container').append(div)
         }
     })
 }
 
 
+// -------------------------- 2 --------------------
+
+// Create a button that says 'get posts' and has a click event to send a request to get all posts.
+// Write a function to get all posts, find what route you would need in your get request
 // make divs for each post
+
+function createGetPostsButton() {
+    var btn = $('<button></button>')
+    btn.attr('id', 'getPosts')
+    btn.text('Get Posts')
+    $('body').append(btn)
+}
+
+function addEventListenerToGetPosts() {
+    $('#getPosts').click( () => {
+        $.get('https://jsonplaceholder.typicode.com/posts', (posts) => {
+            // console.log(posts)
+            for (var j = 0; j < posts.length; j++) {
+                var currentPost = posts[j]
+                // console.log(currentPost)
+                var divPost = $('<div></div>')
+                divPost.attr('class', 'posts')
+                divPost.attr('id', currentPost.id)
+                divPost.text(`${currentPost.id}. ${currentPost.title}: ${currentPost.body}`)
+                $('body').append(divPost)
+            }
+
+            logComment()
+
+        })
+    })
+}
+
 // add event listeners to posts that when clicked fetch all comments associated with given post. 
-// You will have to make another API request at this point, so in the callback of the click event, you will have to make another request. 
-// Read through the documentation to see how the data is structured. Just console log out the data you get back for the comments query.
+//You will have to make another API request at this point, so in the callback of the click event, you will have to make another request. 
+//Read through the documentation to see how the data is structured. Just console log out the data you get back for the comments query.
 
-
-
-
+function logComment() {
+    var postsArr = document.getElementsByClassName('posts')
+    // console.log(postsArr)
+    for(var k = 0; k < postsArr.length; k++) {
+        postsArr[k].addEventListener('click', (e) => {
+            $.get(`https://jsonplaceholder.typicode.com/posts/${e.target.id}/comments`, function(data){
+                console.clear()
+                console.log(e.target.id)
+                console.log(data)
+            })
+        })
+    }
+}
 
 
 // -------------------------- 3 --------------------
@@ -93,24 +95,25 @@ function getAllPosts() {
 
 var button = document.getElementById('button')
 
-button.addEventListener('click', function() {
-    var inputText = document.getElementById('textInput')
-    var inputValue = inputText.value
-    console.log(inputValue)
-    $.get(`https://jsonplaceholder.typicode.com/comments?postId=${inputValue}`, function(data){
-        console.log(data)
-        if (data.length === 0) {
-            var h1 = $('<h1></h1>')
-            h1.text('Error. Nothing found')
-            $('body').append(h1)
-        } else {
-            for (let k = 0; k < data.length; k++) {
-                var cur = data[k]
-                var divElem = $('<div></div>')
-                divElem.attr('class', 'divElement')
-                divElem.text(cur.body)
-                $('#container').append(divElem)
-            }
-        }
+button.addEventListener('click', function(e) {
+    var input = document.getElementById('textInput')
+    console.log(textInput.value)
+    $.get(`https://jsonplaceholder.typicode.com/posts/${input}/comments`, function(data){
+
+        console.log(data);
+        
+
+
+
+
     })
 })
+
+
+// function makeCars(array, make) {
+//     array.forEach(element => {
+//         make(element);
+//     });
+// }
+
+
